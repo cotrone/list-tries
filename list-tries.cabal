@@ -50,6 +50,7 @@ Library
                 , containers >= 0.4  && < 0.7
                 , dlist      >= 0.4  && < 0.9
                 , binary     >= 0.5  && < 0.11
+                , deepseq
 
    if impl(ghc < 8.0)
       Build-Depends: semigroups >= 0.18 && < 0.19
