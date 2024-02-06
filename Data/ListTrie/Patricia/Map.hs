@@ -51,6 +51,7 @@ import Data.Semigroup      (Semigroup(..), stimesIdempotent)
 import Data.Traversable    (Traversable(traverse))
 import Prelude hiding      (filter, foldl, foldr, lookup, map, null)
 import qualified Prelude
+import Control.DeepSeq
 
 #if __GLASGOW_HASKELL__
 import Text.Read (readPrec, lexP, parens, prec, Lexeme(Ident))
@@ -88,6 +89,9 @@ import Data.ListTrie.Base.Map     (Map, OrdMap)
 -- - The 'Monoid' instance defines 'mappend' as 'union' and 'mempty' as
 --   'empty'.
 data TrieMap map k v = Tr (Maybe v) ![k] !(CMap map k v)
+
+instance (NFData v, NFData k, NFData (CMap map k v)) => NFData (TrieMap map k v) where
+   rnf (Tr v ks m) = rnf v `seq` rnf ks `seq` rnf m
 
 type CMap map k v = map k (TrieMap map k v)
 
